@@ -42,7 +42,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
          
         self.show()
         self.iren.Initialize()
- 
+    
 if __name__ == "__main__":
  
     app = QtWidgets.QApplication([])
