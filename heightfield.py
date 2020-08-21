@@ -17,11 +17,18 @@ def main():
 		print ("Takes two Files")
 		return None
 	#Read files
-	bathymetryDataset = vtk.vtkXMLImageDataReader()
-	bathymetryDataset.SetFileName(sys.argv[1])
+	elevationFile = sys.argv[1]
+	satelliteFile = sys.argv[2]
+	
+	if ".vtp" in elevationFile:
+		bathymetryDataset = vtk.vtkXMLPolyDataReader()
+		bathymetryDataset.SetFileName(elevationFile)
+	else:
+		bathymetryDataset = vtk.vtkXMLImageDataReader()
+		bathymetryDataset.SetFileName(elevationFile)
 	bathymetryDataset.Update()
 	imageDataset = vtk.vtkJPEGReader()
-	imageDataset.SetFileName(sys.argv[2])
+	imageDataset.SetFileName(satelliteFile)
 
 	#Filter geometry of the bathymetry dataset
 	warp.SetInputConnection(bathymetryDataset.GetOutputPort())
