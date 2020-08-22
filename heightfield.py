@@ -19,21 +19,22 @@ def main():
 	#Read files
 	elevationFile = sys.argv[1]
 	satelliteFile = sys.argv[2]
-	
+
 	if ".vtp" in elevationFile:
 		bathymetryDataset = vtk.vtkXMLPolyDataReader()
 		bathymetryDataset.SetFileName(elevationFile)
 	else:
 		bathymetryDataset = vtk.vtkXMLImageDataReader()
 		bathymetryDataset.SetFileName(elevationFile)
+
 	bathymetryDataset.Update()
 	imageDataset = vtk.vtkJPEGReader()
 	imageDataset.SetFileName(satelliteFile)
 
 	#Filter geometry of the bathymetry dataset
 	warp.SetInputConnection(bathymetryDataset.GetOutputPort())
-	warp.SetScaleFactor(min)
-	
+	warp.SetScaleFactor(0.5)
+
 	# Create texture from satellite images
 	texture = vtk.vtkTexture()
 	texture.SetInputConnection(imageDataset.GetOutputPort())
@@ -64,26 +65,26 @@ def main():
 	render_window.SetSize(800, 600)
 
 	# Define vtkSliderWidget
-	Slider_representation = vtk.vtkSliderRepresentation2D()
-	Slider_representation.SetMinimumValue(min)
-	Slider_representation.SetMaximumValue(max)
-	Slider_representation.SetValue(min)
-	Slider_representation.SetTitleText("Scale factor")
-	Slider_representation.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
-	Slider_representation.GetPoint1Coordinate().SetValue(0.1, 0.1)
-	Slider_representation.GetPoint2Coordinate().SetCoordinateSystemToNormalizedDisplay()
-	Slider_representation.GetPoint2Coordinate().SetValue(0.4, 0.1)
-	Slider_representation.SetSliderLength(0.02)
-	Slider_representation.SetSliderWidth(0.03)
-	Slider_representation.SetEndCapLength(0.01)
-	Slider_representation.SetEndCapWidth(0.03)
-	Slider_representation.SetTubeWidth(0.005)
-	Slider_representation.SetLabelFormat("%3.0lf / 100")
-	Slider_representation.SetTitleHeight(0.02)
-	Slider_representation.SetLabelHeight(0.02)
+	SliderRepresentation = vtk.vtkSliderRepresentation2D()
+	SliderRepresentation.SetMinimumValue(min)
+	SliderRepresentation.SetMaximumValue(max)
+	SliderRepresentation.SetValue(min)
+	SliderRepresentation.SetTitleText("Scale factor")
+	SliderRepresentation.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
+	SliderRepresentation.GetPoint1Coordinate().SetValue(0.1, 0.1)
+	SliderRepresentation.GetPoint2Coordinate().SetCoordinateSystemToNormalizedDisplay()
+	SliderRepresentation.GetPoint2Coordinate().SetValue(0.4, 0.1)
+	SliderRepresentation.SetSliderLength(0.02)
+	SliderRepresentation.SetSliderWidth(0.03)
+	SliderRepresentation.SetEndCapLength(0.01)
+	SliderRepresentation.SetEndCapWidth(0.03)
+	SliderRepresentation.SetTubeWidth(0.005)
+	SliderRepresentation.SetLabelFormat("%3.0lf / 100")
+	SliderRepresentation.SetTitleHeight(0.02)
+	SliderRepresentation.SetLabelHeight(0.02)
 	SliderWidget = vtk.vtkSliderWidget()
 	SliderWidget.SetInteractor(interactor)
-	SliderWidget.SetRepresentation(Slider_representation)
+	SliderWidget.SetRepresentation(SliderRepresentation)
 	SliderWidget.KeyPressActivationOff()
 	SliderWidget.SetAnimationModeToAnimate()
 	SliderWidget.SetEnabled(True)
