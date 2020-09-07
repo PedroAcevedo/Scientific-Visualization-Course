@@ -1,24 +1,23 @@
 #! /usr/bin/env python
 import sys
 import vtk
-from vtk import vtkScalarBarActor, vtkTextProperty
 
 #Global wrap scalar
 warp = vtk.vtkWarpScalar()
 #Global tube filter
-mapper = vtk.vtkTubeFilter()
+TubeMapper = vtk.vtkTubeFilter()
 
-#  Callback function for wrap's slider 
+#  Callback function for wrap's slider
 def SliderCallbackWrap(obj, event):
     slider = obj.GetRepresentation()
     value = slider.GetValue()
     warp.SetScaleFactor(value)
 
-#  Callback function for Isocontours' slider 
+#  Callback function for Isocontours' slider
 def SliderCallbackIso(obj, event):
 	slider = obj.GetRepresentation()
 	value = slider.GetValue()
-	mapper.SetRadius(value)
+	TubeMapper.SetRadius(value)
     #warp.SetScaleFactor(value)
 
 #Define a slider on the screen
@@ -26,7 +25,7 @@ def SliderRep(x,y,min, max, title):
 	SliderRepresentation = vtk.vtkSliderRepresentation2D()
 	SliderRepresentation.SetMinimumValue(min)
 	SliderRepresentation.SetMaximumValue(max)
-	SliderRepresentation.SetValue(min)
+	SliderRepresentation.SetValue(5000)
 	SliderRepresentation.SetTitleText(title)
 	SliderRepresentation.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
 	SliderRepresentation.GetPoint1Coordinate().SetValue(x,y)
@@ -44,7 +43,7 @@ def SliderRep(x,y,min, max, title):
 
 def main():
 
-	minWrap = 0 
+	minWrap = 0
 	maxWrap = 100
 	minTube = -10000
 	maxTube = 8000
@@ -98,16 +97,16 @@ def main():
 	contour.SetInputConnection(warp.GetOutputPort())
 
 	# mapper is define
-	mapper.SetInputConnection(contour.GetOutputPort())
-	mapper.SetRadius(5000)
+	TubeMapper.SetInputConnection(contour.GetOutputPort())
+	TubeMapper.SetRadius(5000)
 
 	# Mapper for the height value is define
 	heightMapper = vtk.vtkDataSetMapper()
-	heightMapper.SetInputConnection(mapper.GetOutputPort())
+	heightMapper.SetInputConnection(TubeMapper.GetOutputPort())
 	heightMapper.SetLookupTable(lut)
 
 	# Setup color mapping bar
-	colorBar = vtkScalarBarActor()
+	colorBar = vtk.vtkScalarBarActor()
 	colorBar.SetLookupTable(heightMapper.GetLookupTable())
 	colorBar.SetTitle("Color map")
 	colorBar.SetNumberOfLabels(6)
