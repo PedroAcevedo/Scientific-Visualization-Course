@@ -21,11 +21,11 @@ def SliderCallbackIso(obj, event):
     #warp.SetScaleFactor(value)
 
 #Define a slider on the screen
-def SliderRep(x,y,min, max, title):
+def SliderRep(x,y,min, max, title, value=10):
 	SliderRepresentation = vtk.vtkSliderRepresentation2D()
 	SliderRepresentation.SetMinimumValue(min)
 	SliderRepresentation.SetMaximumValue(max)
-	SliderRepresentation.SetValue(5000)
+	SliderRepresentation.SetValue(value)
 	SliderRepresentation.SetTitleText(title)
 	SliderRepresentation.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
 	SliderRepresentation.GetPoint1Coordinate().SetValue(x,y)
@@ -148,7 +148,7 @@ def main():
 	# Define vtkSliderWidget for Isocontours factor
 	SliderWidget2 = vtk.vtkSliderWidget()
 	SliderWidget2.SetInteractor(interactor)
-	SliderWidget2.SetRepresentation(SliderRep(0.1,0.2,0,(minTube*-10),'Isocontours factor'))
+	SliderWidget2.SetRepresentation(SliderRep(0.1,0.2,0,(minTube*-10),'Isocontours factor', value=5000))
 	SliderWidget2.KeyPressActivationOff()
 	SliderWidget2.SetAnimationModeToAnimate()
 	SliderWidget2.SetEnabled(True)
