@@ -55,6 +55,7 @@ class Visualization(object):
 		for i in range(len(self.isovalues)):
 			self.ct_contour.SetValue(i, self.isovalues[i])
 
+			
 		color_func = vtk.vtkColorTransferFunction()
 		color_func.SetColorSpaceToRGB()
 		for c in self.cmap:
@@ -104,14 +105,13 @@ class Visualization(object):
 		#color_actor.GetProperty().SetRepresentationToWireframe()
 		color_actor.SetMapper(color_mapper)
 
-
 		backFaces = vtk.vtkProperty()
 		backFaces.SetSpecular(0)
 		backFaces.SetDiffuse(0)
 		backFaces.SetAmbient(0)
 		backFaces.SetAmbientColor(1,0,0)
 		color_actor.SetBackfaceProperty(backFaces)
-
+		
 		ren = vtk.vtkRenderer()
 		renWin = vtk.vtkRenderWindow()
 		renWin.AddRenderer(ren)
@@ -131,7 +131,7 @@ class Visualization(object):
 		clipXSlider.SetValue(self.clip_x)
 		clipXSlider.SetTitleText("X")
 		clipXSlider.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
-		clipXSlider.GetPoint1Coordinate().SetValue(0.0, 0.3)
+		clipXSlider.GetPoint1Coordinate().SetValue(0.01, 0.3)
 		clipXSlider.GetPoint2Coordinate().SetCoordinateSystemToNormalizedDisplay()
 		clipXSlider.GetPoint2Coordinate().SetValue(0.2, 0.3)
 		clipXSlider.SetSliderLength(0.02)
@@ -156,7 +156,7 @@ class Visualization(object):
 		clipYSlider.SetValue(self.clip_y)
 		clipYSlider.SetTitleText("Y")
 		clipYSlider.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
-		clipYSlider.GetPoint1Coordinate().SetValue(0.0, 0.2)
+		clipYSlider.GetPoint1Coordinate().SetValue(0.01, 0.2)
 		clipYSlider.GetPoint2Coordinate().SetCoordinateSystemToNormalizedDisplay()
 		clipYSlider.GetPoint2Coordinate().SetValue(0.2, 0.2)
 		clipYSlider.SetSliderLength(0.02)
@@ -181,7 +181,7 @@ class Visualization(object):
 		clipZSlider.SetValue(self.clip_z)
 		clipZSlider.SetTitleText("Z")
 		clipZSlider.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
-		clipZSlider.GetPoint1Coordinate().SetValue(0.0, 0.1)
+		clipZSlider.GetPoint1Coordinate().SetValue(0.01, 0.1)
 		clipZSlider.GetPoint2Coordinate().SetCoordinateSystemToNormalizedDisplay()
 		clipZSlider.GetPoint2Coordinate().SetValue(0.2, 0.1)
 		clipZSlider.SetSliderLength(0.02)
@@ -202,6 +202,8 @@ class Visualization(object):
 
 		# Render
 		iren.Initialize()
+		renWin.SetSize(1200, 800)
+		renWin.SetWindowName("Project 3b: Isocontours - Pedro Acevedo & Randy Consuegra")
 		renWin.Render()
 		iren.Start()
 
